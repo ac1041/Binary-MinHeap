@@ -1,1 +1,23 @@
-//insert driver code
+public class Driver {
+   public static void main(String[] args) {
+       BinaryMin treelist = new BinaryMin();
+       treelist.insert(37);
+       treelist.insert(68);
+       treelist.insert(2);
+       treelist.insert(12);
+       treelist.insert(18);
+       treelist.insert(9);
+
+
+       System.out.println("Minimum Heap:");
+       treelist.display();
+
+
+       int minValue = treelist.extract_min();
+       System.out.println("We are now going to extract the minimum value of: " + minValue);
+
+
+       System.out.println("The Binary Min Heap after extracting the min is: ");
+       treelist.display();
+   }
+}
