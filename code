@@ -1,1 +1,131 @@
-//insert code
+import java.util.*;
+public class BinaryMin {
+   //private Integer[] treelist = new Integer[4];
+   //private List<Integer> listVersion = Arrays.asList(treelist);
+   // changed from array-based to array-list
+   private ArrayList<Integer> treelist = new ArrayList<Integer>();
+   public void insert(int x){
+       //int size = treelist.length;
+       //length
+       //int size = treelist.size();
+       treelist.add(x); // assigning first value of array to x
+       int placement = treelist.size() - 1; //keeps track of list size for swapping
+       
+       //System.out.println(placement);
+       //System.out.println(treelist.get(findParent(placement)));
+
+
+       // swaps so that minimum is at the beginning
+       while (placement > 0 && treelist.get(findParent(placement)) > treelist.get(placement)){
+           swap(treelist, placement, findParent(placement));
+
+
+           placement = (findParent(placement));
+
+
+       }
+
+
+   }
+
+
+   public int findParent(int placement){
+       return ((placement - 1)/2); //formula parent index
+
+
+   }
+
+
+   public int findLeftChild(int placement){
+       return ((placement * 2) + 1); //formula for left child index
+   }
+  
+   public int findRightChild(int placement){
+       return ((placement * 2) + 2); //formula for right child index
+   }
+
+
+
+
+  
+   public Integer extract_min(){
+       //returns for empty lists; separate for speed and to prevent IndexOutOfBound Errors
+       if (treelist.size() == 0){
+           return null;
+       }
+      // returns for lists w/ only one value
+      // separate for speed and to prevent IndexOutOfBound Errors
+       else if(treelist.size() == 1){
+          
+           int i = treelist.get(0);
+           treelist.remove(0);
+           return i;
+       }
+       else{
+           int head = treelist.get(0);
+           //treelist.remove(0);
+
+
+           int placement = treelist.size() -1;
+           //moves the last number in the list to the front, so that it will swap correctly
+           treelist.set(0, treelist.get(placement));
+           // keeps from incorrect doubling
+           treelist.remove(placement);
+           placement = 0;
+           int index = 0;
+
+
+           // makes sure the correct child gets moved to the front
+           if (treelist.get(findLeftChild(0)) > treelist.get(findRightChild(0))){
+               index = findRightChild(0);
+           }
+           else{
+               index = findLeftChild(0);
+           }
+
+
+          //initializes the swapping process
+           while (placement >= 0 && treelist.get(index) < treelist.get(placement)){
+               swap(treelist, index, placement);
+
+
+          
+           //&& treelist.get(findRightChild(placement)) > treelist.get(placement)){
+             //  swap(treelist, placement, findLeftChild(placement));
+  
+              // placement = (findLeftChild(placement));
+  
+           }
+          
+           return head;
+       }
+   }
+
+
+   //swaps a parent and child if a new addition is in the wrong space
+   public void swap(ArrayList<Integer> treelist, int placement, int parent){
+       int temp = treelist.get(placement);
+       treelist.set(placement, treelist.get(parent));
+       treelist.set(parent, temp);
+   }
+
+
+   public void display(){
+       displayRecursive(0, 0);
+   }
+
+
+
+
+  //display function heavily based off of in-class UBST display recursion
+   private void displayRecursive(int placement, int height){
+       if(placement < treelist.size()){
+           displayRecursive(findRightChild(placement), height + 1);
+               for(int i=0; i < height; i++){
+                   System.out.print("     ");
+               }
+               System.out.println(treelist.get(placement));
+               displayRecursive(findLeftChild(placement), height + 1);
+       }
+   }
+}
